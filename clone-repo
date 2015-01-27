@@ -1,0 +1,8 @@
+#!/bin/sh
+
+git clone https://np@scm.icebergsys.net/git/$1
+
+SHORTNAME=`echo $1 | sed s_^.*/__`
+
+cd $SHORTNAME
+~/repotools/setup $1 $2

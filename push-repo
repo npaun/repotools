@@ -1,0 +1,5 @@
+#!/bin/sh
+
+git remote add origin https://np@scm.icebergsys.net/git/$1
+~/repotools/setup $1 $2
+
