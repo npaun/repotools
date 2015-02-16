@@ -1,0 +1,23 @@
+#!/bin/sh
+
+if [ -z "$1" ]; then
+	MAKE_IN=Makefile
+else
+	MAKE_IN=$1
+fi
+
+if [ -z "$2" ]; then
+	MAKE_OUT=BSDmakefile
+else
+	MAKE_OUT=$2
+fi
+
+sed -f - $MAKE_IN > $MAKE_OUT <<'EOF'
+s/### This Makefile is written in GNU Make syntax ###/###M# This Makefile was automatically converted to BSD make syntax ###/g
+s/\([^:]*\): \([^=]*\)=\(.*\)/.ifmake \1\n\2=\3\nendif #M# Target-specific variable/g
+s/ifdef/.ifdef #M# Defined conditional/g
+s/ifndef/.ifndef #M# Not defined conditional/g
+s/else/.else #M# Conditional else/g
+s/endif/.endif #M# Conditional end/g
+s/= \$(shell \([^)]*\))/!= \1 #M# Shell variable/g
+EOF
