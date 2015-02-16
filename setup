@@ -15,6 +15,7 @@ echo "#!/bin/sh" >> $TOPLEVEL/.git/hooks/post-commit
 echo "Enabling commit tracking"
 echo "~/repotools/repotrack &" >> $TOPLEVEL/.git/hooks/post-commit
 echo "echo Reporting commit to server" >> $TOPLEVEL/.git/hooks/post-commit
+echo "~/repotools/runtags &" >> $TOPLEVEL/.git/hooks/post-commit
 
 echo "Setting up multi-remotes"
 

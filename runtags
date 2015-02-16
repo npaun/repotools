@@ -1,13 +1,15 @@
 #!/bin/sh
 
-TOPLEVEL=`git rev-parse --show-toplevel`
-CTAGS=/usr/local/bin/exctags
 
-if [ ! -e $CTAGS ]; then
+if [ -z $CTAGS_TYPE ]; then
 	exit
 fi
 
+
+TOPLEVEL=`git rev-parse --show-toplevel`
 cd $TOPLEVEL
+
+if [ "$CTAGS_TYPE" = "exctags" ]; then
 $CTAGS \
 	--langdef=Prolog \
 	--langmap=Prolog:.pl \
@@ -15,6 +17,10 @@ $CTAGS \
 	--exclude="docs/*" \
 	--extra=f \
 	-R .
-
-sed -i '' -E  '/(cl|cl_poly|common|retained)	/d' tags #Suppress useless procedures.
+elif [ "$CTAGS_TYPE" = "emacs" ]; then
+	ctags -l prolog `find . -name *.pl` -l prolog balance/balancer formula/compounder -l prolog `find . -name *.in`
+else
+	echo "What kind of CTags is that !?"
+	exit 1
+fi
 
